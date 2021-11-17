@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+set -x
+
+# Make sure ~/git directory is around
+mkdir -p ~/git
+
+# Using swap space is a bad idea on Raspberry Pi
+sudo dphys-swapfile swapoff
+
+# Update Advanced Packaging Tool (apt) and upgrade packages
+sudo apt-get update && sudo apt-get upgrade && sudo apt -y autoremove
+
+# Install core snap to get latest snapd
+sudo snap install core
+
+# Install with apt
+sudo apt install -y \
+	bat
+
+# Install with apt-get
+sudo apt-get install -y \
+	vim \
+	git \
+	openjdk-11-jdk \
+	texinfo \
+	ripgrep \
+	rlwrap \
+	time
+
+# Install Clojure 1.10.3
+clojure_version="1.10.3.1029"
+if [[ -z $(clojure --version | grep $clojure_version) ]]
+then
+	curl -O https://download.clojure.org/install/linux-install-$clojure_version.sh
+	chmod +x linux-install-$clojure_version.sh
+	./linux-install-$clojure_version.sh
+	rm linux-install-$clojure_version.sh
+fi
+
+# Install Emacs + Doom
+sudo apt-get install emacs
+
+git clone https://github.com/hlissner/doom-emacs ~/.emacs.d
+~/.emacs.d/bin/doom -y install
+

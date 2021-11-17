@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# Tiling Window Stuff
+sudo apt-get install -y \
+	xserver-xorg \
+	xinit \
+	x11-xserver-utils \
+	xmonad \
+	libghc-xmonad-contrib-dev
+
